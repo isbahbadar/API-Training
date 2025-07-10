@@ -7,82 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Add a post",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.expect(pm.response.code).to.equal(201);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response time is less than 1000ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Content-Type is application/json\", function () {\r",
-							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response has expected fields\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"\r",
-							"    if (Array.isArray(jsonData)) {\r",
-							"        pm.expect(jsonData[0]).to.have.property(\"userId\");\r",
-							"        pm.expect(jsonData[0]).to.have.property(\"id\");\r",
-							"        pm.expect(jsonData[0]).to.have.property(\"title\");\r",
-							"        pm.expect(jsonData[0]).to.have.property(\"body\");\r",
-							"    }\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Store postId in environment\", () => {\r",
-							"    const json = pm.response.json();\r",
-							"    pm.environment.set(\"postId\", json.id);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"let timestamp = new Date().toISOString();\r",
-							"pm.environment.set(\"requestTimestamp\", timestamp);"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n{\r\n    \"title\": \"New post\",\r\n    \"body\": \"This is a new test post.\",\r\n    \"userId\": 1,\r\n    \"timestamp\": \"{{requestTimestamp}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/posts",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Read All Posts",
 			"event": [
 				{
@@ -212,8 +136,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response time is less than 1000ms\", function () {\r",
@@ -320,6 +244,82 @@
 					"path": [
 						"posts",
 						"{{postId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has expected fields\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    if (Array.isArray(jsonData)) {\r",
+							"        pm.expect(jsonData[0]).to.have.property(\"userId\");\r",
+							"        pm.expect(jsonData[0]).to.have.property(\"id\");\r",
+							"        pm.expect(jsonData[0]).to.have.property(\"title\");\r",
+							"        pm.expect(jsonData[0]).to.have.property(\"body\");\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Store postId in environment\", () => {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.environment.set(\"postId\", json.id);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let timestamp = new Date().toISOString();\r",
+							"pm.environment.set(\"requestTimestamp\", timestamp);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n    \"title\": \"New post\",\r\n    \"body\": \"This is a new test post.\",\r\n    \"userId\": 1,\r\n    \"timestamp\": \"{{requestTimestamp}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/posts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"posts"
 					]
 				}
 			},
